@@ -1,6 +1,16 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
+  :root {
+    --primary: #00a3b4;
+    --white: #FFF;
+    --secondary: #ec8213;
+    --black: #000;
+    --gray: #8B8C99;
+    --error: #f49a9a;
+    --success: #25b000;
+    --warning: #ffc107;
+  }
   /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)

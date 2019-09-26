@@ -1,57 +1,32 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import LinkRoute from '../../components/Link';
+import Form from '../../components/Form';
 
-class index extends Component {
-  constructor(props) {
-    super(props);
+const Index = ({ match }) => {
+  const [loja, setLoja] = useState({});
+  const [loading, setLoading] = useState(true);
+  const { lojas } = useSelector(state => state);
+  const { id } = match.params;
 
-    this.state = {
-      loja: {},
-      loading: true
-    };
+  useEffect(() => {
+    const loja = lojas.find(loja => loja._id === id);
+
+    setLoading(false);
+    setLoja(loja);
+  });
+
+  if (loading) {
+    return <p>Carregando dados da loja...</p>;
   }
 
-  async componentDidMount() {
-    const { id } = this.props.match.params;
+  return (
+    <>
+      <LinkRoute route="/lojas" />
+      {!loja ? <p>Loja não encontrada!</p> : <Form dados={loja} />}
+    </>
+  );
+};
 
-    const loja = this.props.lojas.find( loja => loja._id === id);
-
-    this.setState({
-      loja,
-      loading: false,
-    });
-
-  }
-
-  render() {
-    const { loja, loading } = this.state;
-
-    if (loading) {
-      return (
-        <>
-          <p>Carregando dados da loja...</p>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <LinkRoute route='/lojas'/>
-        <div>
-          <p>{loja.name}</p>
-          <p>{loja.address}</p>
-          <p>{loja.lat}</p>
-          <p>{loja.lng}</p>
-        </div>
-      </>
-    );
-  }
-}
-
-const mapStateToProps = store => ({
-  lojas: store.lojas
-});
-
-export default connect(mapStateToProps)(index);
+export default Index;

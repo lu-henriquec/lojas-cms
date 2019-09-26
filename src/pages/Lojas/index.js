@@ -11,20 +11,22 @@ const Lojas = () => {
 
   return (
     <>
-      <LinkRoute route='/'/>
+      <LinkRoute route="/" />
       <Title>Lojas</Title>
-      {lojas.map( loja => {
-        return(
+      {lojas.map(loja => {
+        return (
           <BoxLoja key={loja._id}>
             <p>{loja.name}</p>
             <p>{loja.address}</p>
-            <p>{loja.lat} - {loja.lng}</p>
+            <p>
+              {loja.lat} / {loja.lng}
+            </p>
             <Link to={`/editar/${loja._id}`}>Editar</Link>
           </BoxLoja>
-        )
+        );
       })}
     </>
   );
-}
+};
 
 export default Lojas;

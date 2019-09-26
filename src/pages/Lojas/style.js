@@ -15,8 +15,4 @@ export const BoxLoja = styled.div`
   & + div {
     margin-top: 15px;
   }
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
