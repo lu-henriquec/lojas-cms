@@ -20,8 +20,10 @@ const Index = ({ match }) => {
   useEffect(() => {
     const loja = lojas.find(loja => loja._id === id);
 
-    setLoading(false);
-    setLoja(loja);
+    if(loja) {
+      setLoja(loja);
+      setLoading(false);
+    }
   });
 
   if (loading) {

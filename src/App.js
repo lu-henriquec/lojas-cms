@@ -12,7 +12,7 @@ import Editar from './pages/Edit';
 import Add from './pages/Add';
 
 import Layout from './components/Layout';
-import Title from './components/Title';
+import Header from './components/Header';
 
 export default function src() {
   const { lojas } = useSelector(state => state);
@@ -44,16 +44,18 @@ export default function src() {
   }
 
   return (
-    <Layout>
-      <Title />
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Main} />
-          <Route path="/lojas" component={Lojas} />
-          <Route path="/editar/:id" exact component={Editar} />
-          <Route path="/adicionar" component={Add} />
-        </Switch>
-      </Router>
-    </Layout>
+    <>
+      <Header />
+      <Layout>
+        <Router>
+          <Switch>
+            <Route path="/" exact component={Main} />
+            <Route path="/lojas" component={Lojas} />
+            <Route path="/editar/:id" exact component={Editar} />
+            <Route path="/adicionar" component={Add} />
+          </Switch>
+        </Router>
+      </Layout>
+    </>
   );
 }
