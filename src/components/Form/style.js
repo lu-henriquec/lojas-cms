@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Form = styled.form`
   margin: 15px 0;
@@ -18,18 +18,18 @@ export const Fieldset = styled.fieldset`
     padding: 10px;
     width: 100%;
 
-    &[type='submit'] {
-      background-color: var(--success);
-      color: var(--white);
-    }
-
-    &[type='button'] {
-      background-color: var(--error);
-      color: var(--white);
+    & + span {
+      color: var(--error);
     }
   }
 
   & + fieldset {
     margin-top: 15px;
   }
+`;
+
+export const Button = styled.input`
+    background-color: ${props => props.theme && css`var(--${props.theme})`};
+    color: var(--white);
+    cursor: pointer;
 `;

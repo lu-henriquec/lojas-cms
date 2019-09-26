@@ -13,6 +13,7 @@ const Lojas = () => {
     <>
       <LinkRoute route="/" />
       <Title>Lojas</Title>
+      <Link to='/adicionar'>Adicionar loja</Link>
       {lojas.map(loja => {
         return (
           <BoxLoja key={loja._id}>

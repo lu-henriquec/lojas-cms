@@ -9,6 +9,7 @@ import { setLojas } from './store/actions/lojas';
 import Main from './pages/Main';
 import Lojas from './pages/Lojas';
 import Editar from './pages/Edit';
+import Add from './pages/Add';
 
 import Layout from './components/Layout';
 import Title from './components/Title';
@@ -46,13 +47,12 @@ export default function src() {
     <Layout>
       <Title />
       <Router>
-        <Route>
-          <Switch>
-            <Route path="/" exact component={Main} />
-            <Route path="/lojas" component={Lojas} />
-            <Route path="/editar/:id" exact component={Editar} />
-          </Switch>
-        </Route>
+        <Switch>
+          <Route path="/" exact component={Main} />
+          <Route path="/lojas" component={Lojas} />
+          <Route path="/editar/:id" exact component={Editar} />
+          <Route path="/adicionar" component={Add} />
+        </Switch>
       </Router>
     </Layout>
   );

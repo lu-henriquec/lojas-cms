@@ -1,63 +1,118 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Form, Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
+
 import PropTypes from 'prop-types';
 
+import { setLojas } from '../../store/actions/lojas';
 import api from '../../services/api';
 
 import * as FormStyle from './style';
+import Delete from './delete';
 
-const Form = ({ dados }) => {
-  const [excludeDone, setExcludeDone] = useState(false);
-  const excluirLoja = async id => {
-    console.log(id);
-    const excluir = await api.delete(`/loja/${id}`);
+const FormDados = ({ dados, isUpdate = false }) => {
+  const dispatch = useDispatch();
 
-    if (excluir.data.status === 200) setExcludeDone(true);
+  const initialData = !dados ? {} : {
+    name: dados.name,
+    address: dados.address,
+    lat: dados.lat,
+    lng: dados.lng
   };
 
-  if (!dados) return null;
+  const schema = Yup.object().shape({
+    name: Yup.string()
+      .required('Nome obrigatório'),
+    address: Yup.string()
+      .required('Endereço obrigatório'),
+    lat: Yup.string()
+      .required('Latitude obrigatório'),
+    lng: Yup.string()
+      .required('Longitude obrigatório'),
+  });
 
-  if (excludeDone) return <Redirect to="/lojas" />;
+  function handleSubmit(data) {
+    isUpdate ? updateAdress(data) : addAdress(data);
+  }
+
+  async function updateAdress(data) {
+    try {
+      await api.put(`/loja/${dados._id}`, data)
+        .then( async res => {
+          const { data } = await api.get('/lojas');
+          dispatch(setLojas(data));
+
+          if (res.data.status === 200) alert('Loja atualizada com sucesso!');
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function addAdress(data) {
+    try {
+      data.lat = Number(data.lat);
+      data.lng = Number(data.lng);
+
+      await api.post(`/lojas`, data)
+        .then( async res => {
+          const { data } = await api.get('/lojas');
+          dispatch(setLojas(data));
+
+          if (res.data.status === 201) alert('Loja cadastrada com sucesso!');
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // if (!dados) return null;
 
   return (
-    <FormStyle.Form id="formLoja" onSubmit={e => e.preventDefault()}>
+    <Form onSubmit={handleSubmit} schema={schema} initialData={initialData}>
       <FormStyle.Fieldset>
-        <label htmlFor="name">Nome</label>
-        <input type="text" name="name" id="name" defaultValue={dados.name} />
+        <label htmlFor='name'>Nome:</label>
+        <Input name='name' />
       </FormStyle.Fieldset>
+
       <FormStyle.Fieldset>
-        <label htmlFor="address">Endereço</label>
-        <input
-          type="text"
-          name="address"
-          id="address"
-          defaultValue={dados.address}
-        />
+        <label htmlFor='address'>Endereço:</label>
+        <Input name='address' />
       </FormStyle.Fieldset>
+
       <FormStyle.Fieldset>
-        <label htmlFor="lat">Latitude</label>
-        <input type="text" name="lat" id="lat" defaultValue={dados.lat} />
+        <label htmlFor='lat'>Latitude:</label>
+        <Input name='lat' />
       </FormStyle.Fieldset>
+
       <FormStyle.Fieldset>
-        <label htmlFor="lng">Longitude</label>
-        <input type="text" name="lng" id="lng" defaultValue={dados.lng} />
+        <label htmlFor='lng'>Longitude:</label>
+        <Input name='lng' />
       </FormStyle.Fieldset>
+
       <FormStyle.Fieldset>
-        <input type="submit" value="Salvar" />
+        <FormStyle.Button theme='success' type='submit' value='Salvar' />
       </FormStyle.Fieldset>
-      <FormStyle.Fieldset>
-        <input
-          type="button"
-          value="Excluir"
-          onClick={() => excluirLoja(dados._id)}
-        />
-      </FormStyle.Fieldset>
-    </FormStyle.Form>
+
+      {isUpdate &&
+        <FormStyle.Fieldset>
+          <Delete id={dados._id}>
+            <FormStyle.Button
+              theme='error'
+              type='button'
+              value='Excluir'
+            />
+          </Delete>
+        </FormStyle.Fieldset>
+      }
+    </Form>
   );
 };
 
-Form.propTypes = {
+FormDados.propTypes = {
   route: PropTypes.object,
+  isUpdate: PropTypes.bool
 };
 
-export default Form;
+export default FormDados;
