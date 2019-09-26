@@ -7,7 +7,8 @@ export default function Main() {
   return (
     <>
       <LinksContainer>
-        <Link to='/lojas'>Ver lojas</Link>
+        <Link to='/lojas'>Lojas</Link>
+        <Link to='/'>Calendário</Link>
       </LinksContainer>
     </>
   );

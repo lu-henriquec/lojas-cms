@@ -2,9 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { FaPlus } from 'react-icons/fa';
+
 import LinkRoute from '../../components/Link';
 
-import { Title, BoxLoja } from './style';
+import { Title, BoxLoja, Boxadd } from './style';
 
 const Lojas = () => {
   const { lojas } = useSelector(state => state);
@@ -13,7 +15,7 @@ const Lojas = () => {
     <>
       <LinkRoute route="/" />
       <Title>Lojas</Title>
-      <Link to='/adicionar'>Adicionar loja</Link>
+      <Boxadd to='/adicionar'><FaPlus size={18}/>Adicionar loja</Boxadd>
       {lojas.map(loja => {
         return (
           <BoxLoja key={loja._id}>

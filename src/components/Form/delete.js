@@ -18,7 +18,7 @@ const Delete = ({ children, id }) => {
       const { data } = await api.get('/lojas');
       dispatch(setLojas(data));
 
-      // setExcludeDone(true);
+      setExcludeDone(true);
     };
   };
 
