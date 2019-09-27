@@ -1,5 +1,5 @@
-// old
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
@@ -12,6 +12,14 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'public'),
     historyApiFallback: true,
   },
+  node: {
+    fs: 'empty',
+  },
+  plugins: [
+    new Dotenv({
+      path: './.env',
+    }),
+  ],
   module: {
     rules: [
       {
